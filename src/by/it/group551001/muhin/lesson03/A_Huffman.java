@@ -44,8 +44,8 @@ public class A_Huffman {
     static private final Map<Character, String> codes = new TreeMap<>();
 
     public static void main(String[] args) throws FileNotFoundException {
-        InputStream inputStream = by.it.group551001.bogush.lesson03.A_Huffman.class.getResourceAsStream("dataA.txt");
-        by.it.group551001.bogush.lesson03.A_Huffman instance = new by.it.group551001.bogush.lesson03.A_Huffman();
+        InputStream inputStream = by.it.group551001.muhin.lesson03.A_Huffman.class.getResourceAsStream("dataA.txt");
+        by.it.group551001.muhin.lesson03.A_Huffman instance = new by.it.group551001.muhin.lesson03.A_Huffman();
         long startTime = System.currentTimeMillis();
         String result = instance.encode(inputStream);
         long finishTime = System.currentTimeMillis();
@@ -72,9 +72,9 @@ public class A_Huffman {
             count.merge(s.charAt(i), 1, Integer::sum);
         }
         //2. перенесем все символы в приоритетную очередь в виде листьев
-        PriorityQueue<by.it.group551001.bogush.lesson03.A_Huffman.Node> priorityQueue = new PriorityQueue<>();
+        PriorityQueue<by.it.group551001.muhin.lesson03.A_Huffman.Node> priorityQueue = new PriorityQueue<>();
         for (Map.Entry<Character, Integer> entry : count.entrySet()) {
-            priorityQueue.add(new by.it.group551001.bogush.lesson03.A_Huffman.LeafNode(entry.getValue(), entry.getKey()));
+            priorityQueue.add(new by.it.group551001.muhin.lesson03.A_Huffman.LeafNode(entry.getValue(), entry.getKey()));
         }
 
         //3. вынимая по два узла из очереди (для сборки родителя)
@@ -82,14 +82,14 @@ public class A_Huffman {
         //построим дерево кодирования Хаффмана.
         //У родителя частоты детей складываются.
         while (priorityQueue.size() > 1) {
-            by.it.group551001.bogush.lesson03.A_Huffman.Node left = priorityQueue.poll(); // вынимаем наименьший
-            by.it.group551001.bogush.lesson03.A_Huffman.Node right = priorityQueue.poll(); // вынимаем второй наименьший
-            priorityQueue.add(new by.it.group551001.bogush.lesson03.A_Huffman.InternalNode(left, right)); // создаём родителя и кладём обратно
+            by.it.group551001.muhin.lesson03.A_Huffman.Node left = priorityQueue.poll(); // вынимаем наименьший
+            by.it.group551001.muhin.lesson03.A_Huffman.Node right = priorityQueue.poll(); // вынимаем второй наименьший
+            priorityQueue.add(new by.it.group551001.muhin.lesson03.A_Huffman.InternalNode(left, right)); // создаём родителя и кладём обратно
         }
         //4. последний из родителей будет корнем этого дерева
         //это будет последний и единственный элемент оставшийся в очереди priorityQueue.
-        by.it.group551001.bogush.lesson03.A_Huffman.Node root = priorityQueue.poll();
-        if (root instanceof by.it.group551001.bogush.lesson03.A_Huffman.LeafNode) {
+        by.it.group551001.muhin.lesson03.A_Huffman.Node root = priorityQueue.poll();
+        if (root instanceof by.it.group551001.muhin.lesson03.A_Huffman.LeafNode) {
             root.fillCodes("0");
         } else {
             root.fillCodes("");
@@ -105,7 +105,7 @@ public class A_Huffman {
     }
 
     //Изучите классы Node InternalNode LeafNode
-    abstract class Node implements Comparable<by.it.group551001.bogush.lesson03.A_Huffman.Node> {
+    abstract class Node implements Comparable<by.it.group551001.muhin.lesson03.A_Huffman.Node> {
         //абстрактный класс элемент дерева
         //(сделан abstract, чтобы нельзя было использовать его напрямую)
         //а только через его версии InternalNode и LeafNode
@@ -123,21 +123,21 @@ public class A_Huffman {
         //метод нужен для корректной работы узла в приоритетной очереди
         //или для сортировок
         @Override
-        public int compareTo(by.it.group551001.bogush.lesson03.A_Huffman.Node o) {
+        public int compareTo(by.it.group551001.muhin.lesson03.A_Huffman.Node o) {
             return Integer.compare(frequence, o.frequence);
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
     //расширение базового класса до внутреннего узла дерева
-    private class InternalNode extends by.it.group551001.bogush.lesson03.A_Huffman.Node {
+    private class InternalNode extends by.it.group551001.muhin.lesson03.A_Huffman.Node {
         //внутренный узел дерева
-        by.it.group551001.bogush.lesson03.A_Huffman.Node left;  //левый ребенок бинарного дерева
-        by.it.group551001.bogush.lesson03.A_Huffman.Node right; //правый ребенок бинарного дерева
+        by.it.group551001.muhin.lesson03.A_Huffman.Node left;  //левый ребенок бинарного дерева
+        by.it.group551001.muhin.lesson03.A_Huffman.Node right; //правый ребенок бинарного дерева
 
         //для этого дерева не существует внутренних узлов без обоих детей
         //поэтому вот такого конструктора будет достаточно
-        InternalNode(by.it.group551001.bogush.lesson03.A_Huffman.Node left, by.it.group551001.bogush.lesson03.A_Huffman.Node right) {
+        InternalNode(by.it.group551001.muhin.lesson03.A_Huffman.Node left, by.it.group551001.muhin.lesson03.A_Huffman.Node right) {
             super(left.frequence + right.frequence);
             this.left = left;
             this.right = right;
@@ -154,7 +154,7 @@ public class A_Huffman {
 
     ////////////////////////////////////////////////////////////////////////////////////
     //расширение базового класса до листа дерева
-    private class LeafNode extends by.it.group551001.bogush.lesson03.A_Huffman.Node {
+    private class LeafNode extends by.it.group551001.muhin.lesson03.A_Huffman.Node {
         //лист
         char symbol; //символы хранятся только в листах
 
